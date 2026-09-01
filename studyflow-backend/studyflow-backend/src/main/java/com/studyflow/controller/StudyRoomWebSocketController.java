@@ -9,9 +9,8 @@ import org.springframework.stereotype.Controller;
 public class StudyRoomWebSocketController {
 
     @MessageMapping("/room/message")
-    @SendTo("/topic/room")
+    @SendTo("/topic/room/{roomCode}")
     public StudyRoomMessage sendMessage(StudyRoomMessage message) {
-
         return message;
     }
 }
