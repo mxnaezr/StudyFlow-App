@@ -12,7 +12,7 @@ import {
   SPACING,
 } from "../constants/theme";
 
-import { useTheme } from "./context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 
 export default function AppearanceScreen() {
   const {
@@ -442,10 +442,6 @@ export default function AppearanceScreen() {
   );
 }
 
-/* ============================================================
-   RADIO BUTTON
-============================================================ */
-
 function RadioButton({
   selected,
   colors,
@@ -481,10 +477,6 @@ function RadioButton({
     </View>
   );
 }
-
-/* ============================================================
-   STYLES
-============================================================ */
 
 const styles = StyleSheet.create({
   container: {
