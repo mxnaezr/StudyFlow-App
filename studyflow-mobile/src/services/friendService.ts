@@ -7,6 +7,11 @@ export interface FriendUser {
   profileImage?: string | null;
 }
 
+export interface FriendRequest {
+  friendshipId: number;
+  user: FriendUser;
+}
+
 export async function getFriends(): Promise<FriendUser[]> {
   return await apiRequest("/api/friends");
 }
@@ -16,23 +21,17 @@ export async function searchUsers(query: string): Promise<FriendUser[]> {
 }
 
 export async function sendFriendRequest(userId: number) {
-  return await apiRequest(`/api/friends/request/${userId}`, {
-    method: "POST",
-  });
+  return await apiRequest(`/api/friends/request/${userId}`, { method: "POST" });
 }
 
-export async function getFriendRequests(): Promise<FriendUser[]> {
+export async function getFriendRequests(): Promise<FriendRequest[]> {
   return await apiRequest("/api/friends/requests");
 }
 
 export async function acceptFriendRequest(friendshipId: number) {
-  return await apiRequest(`/api/friends/requests/${friendshipId}/accept`, {
-    method: "POST",
-  });
+  return await apiRequest(`/api/friends/requests/${friendshipId}/accept`, { method: "POST" });
 }
 
 export async function declineFriendRequest(friendshipId: number) {
-  return await apiRequest(`/api/friends/requests/${friendshipId}/decline`, {
-    method: "POST",
-  });
+  return await apiRequest(`/api/friends/requests/${friendshipId}/decline`, { method: "POST" });
 }
