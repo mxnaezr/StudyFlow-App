@@ -20,7 +20,7 @@ export default function FriendsScreen() {
   const [inviteCode, setInviteCode] = useState("");
 
   const createRoom = () => {
-    router.push("/study-room/create");
+    router.push("/study-room/create" as any);
   };
 
   const joinRoom = () => {
@@ -29,7 +29,7 @@ export default function FriendsScreen() {
       Alert.alert("Enter a room code", "Ask your friend for their StudyFlow room code or invite link.");
       return;
     }
-    router.push({ pathname: "/study-room/[code]", params: { code } });
+    router.push({ pathname: "/study-room/[code]", params: { code } } as any);
   };
 
   return (

@@ -12,6 +12,7 @@ com\studyflow\entity\StudyGoal$StudyGoalBuilder.class
 com\studyflow\repository\UserRepository.class
 com\studyflow\dto\VerifyEmailRequest.class
 com\studyflow\entity\Subject.class
+com\studyflow\config\WebSocketConfig.class
 com\studyflow\entity\StudyGoal.class
 com\studyflow\repository\EmailVerificationRepository.class
 com\studyflow\StudyflowBackendApplication.class
@@ -20,14 +21,17 @@ com\studyflow\repository\StudyGoalRepository.class
 com\studyflow\controller\StudySessionController.class
 com\studyflow\entity\User.class
 com\studyflow\entity\Subject$SubjectBuilder.class
+com\studyflow\dto\ProfileUpdateRequest.class
 com\studyflow\security\JwtService.class
 com\studyflow\service\StudySessionService.class
 com\studyflow\entity\User$UserBuilder.class
 com\studyflow\security\SecurityConfig.class
+com\studyflow\dto\StudyRoomMessage.class
 com\studyflow\service\SubjectService.class
 com\studyflow\controller\StatisticsController.class
 com\studyflow\repository\StudySessionRepository.class
 com\studyflow\dto\LoginRequest.class
+com\studyflow\controller\StudyRoomWebSocketController.class
 com\studyflow\entity\StudySession.class
 com\studyflow\exception\ResourceNotFoundException.class
 com\studyflow\security\JwtAuthenticationFilter.class
