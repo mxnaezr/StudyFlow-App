@@ -1,6 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
-const API_BASE_URL = "http://192.168.8.200:8080";
+const API_BASE_URL_WEB = "http://localhost:8080";
+const API_BASE_URL_MOBILE = "http://192.168.8.200:8080";
+
+const API_BASE_URL =
+  Platform.OS === "web"
+    ? API_BASE_URL_WEB
+    : API_BASE_URL_MOBILE;
 
 const TOKEN_KEY = "studyflow_token";
 
@@ -13,6 +20,7 @@ export async function apiRequest(
 
     console.log("=================================");
     console.log("API REQUEST");
+    console.log("PLATFORM:", Platform.OS);
     console.log("URL:", `${API_BASE_URL}${endpoint}`);
     console.log("METHOD:", options.method || "GET");
     console.log("BODY:", options.body);
@@ -28,7 +36,7 @@ export async function apiRequest(
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    // Add any custom headers passed to apiRequest
+    // Add custom headers
     if (options.headers) {
       Object.assign(headers, options.headers);
     }
@@ -64,12 +72,6 @@ export async function apiRequest(
         (typeof data === "string" ? data : null) ||
         `Request failed with status ${response.status}`;
 
-      console.error(
-        "SERVER ERROR:",
-        response.status,
-        message
-      );
-
       throw new Error(message);
     }
 
@@ -77,10 +79,7 @@ export async function apiRequest(
 
   } catch (error: any) {
 
-    console.error(
-      "API ERROR:",
-      error
-    );
+    console.error("API ERROR:", error);
 
     throw new Error(
       error?.message ||

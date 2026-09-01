@@ -2,16 +2,34 @@ package com.studyflow.controller;
 
 import com.studyflow.dto.StudyRoomMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class StudyRoomWebSocketController {
 
-    @MessageMapping("/room/message")
-    @SendTo("/topic/room")
-    public StudyRoomMessage sendMessage(StudyRoomMessage message) {
+    private final SimpMessagingTemplate messagingTemplate;
 
-        return message;
+    public StudyRoomWebSocketController(
+            SimpMessagingTemplate messagingTemplate
+    ) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
+    @MessageMapping("/room/message")
+    public void sendMessage(StudyRoomMessage message) {
+
+        if (message.getRoomCode() == null ||
+                message.getRoomCode().isBlank()) {
+
+            return;
+        }
+
+        String roomCode = message.getRoomCode().trim();
+
+        messagingTemplate.convertAndSend(
+                "/topic/room/" + roomCode,
+                message
+        );
     }
 }

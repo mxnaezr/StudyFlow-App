@@ -32,6 +32,5 @@ com\studyflow\entity\StudySession.class
 com\studyflow\exception\ResourceNotFoundException.class
 com\studyflow\security\JwtAuthenticationFilter.class
 com\studyflow\controller\StudyGoalController.class
-com\studyflow\controller\UserController$UserResponse.class
 com\studyflow\repository\SubjectRepository.class
 com\studyflow\entity\EmailVerification.class

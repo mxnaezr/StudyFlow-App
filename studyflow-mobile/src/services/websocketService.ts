@@ -11,8 +11,16 @@ let stompClient: Client | null = null;
 const WS_URL = "ws://192.168.8.200:8080/ws";
 
 export function connectToStudyRoom(
+  roomCode: string,
   onMessageReceived: (message: StudyRoomMessage) => void
 ) {
+  if (!roomCode || !roomCode.trim()) {
+    console.error("Room code is required.");
+    return;
+  }
+
+  const normalizedRoomCode = roomCode.trim();
+
   stompClient = new Client({
     brokerURL: WS_URL,
 
@@ -25,12 +33,12 @@ export function connectToStudyRoom(
     onConnect: () => {
       console.log("=================================");
       console.log("WEBSOCKET CONNECTED");
+      console.log("ROOM:", normalizedRoomCode);
       console.log("=================================");
 
       stompClient?.subscribe(
-        "/topic/room",
+        `/topic/room/${normalizedRoomCode}`,
         (message: IMessage) => {
-
           try {
             const data: StudyRoomMessage =
               JSON.parse(message.body);
@@ -86,10 +94,12 @@ export function sendStudyRoomMessage(
   }
 
   const payload: StudyRoomMessage = {
-    roomCode,
+    roomCode: roomCode.trim(),
     sender,
     message,
   };
+
+  console.log("SENDING ROOM MESSAGE:", payload);
 
   stompClient.publish({
     destination: "/app/room/message",
