@@ -14,40 +14,12 @@ export default function TabsLayout() {
         },
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-        }}
-      />
-
-      <Tabs.Screen
-        name="subjects"
-        options={{
-          title: "Subjects",
-        }}
-      />
-
-      <Tabs.Screen
-        name="sessions"
-        options={{
-          title: "Sessions",
-        }}
-      />
-
-      <Tabs.Screen
-        name="statistics"
-        options={{
-          title: "Statistics",
-        }}
-      />
-
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-        }}
-      />
+      <Tabs.Screen name="index" options={{ title: "Home" }} />
+      <Tabs.Screen name="subjects" options={{ title: "Subjects" }} />
+      <Tabs.Screen name="sessions" options={{ title: "Sessions" }} />
+      <Tabs.Screen name="friends" options={{ title: "Friends" }} />
+      <Tabs.Screen name="statistics" options={{ title: "Statistics" }} />
+      <Tabs.Screen name="profile" options={{ title: "Profile" }} />
     </Tabs>
   );
 }
