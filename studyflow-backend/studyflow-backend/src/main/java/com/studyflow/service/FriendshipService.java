@@ -1,5 +1,6 @@
 package com.studyflow.service;
 
+import com.studyflow.dto.FriendRequestResponse;
 import com.studyflow.dto.FriendUserResponse;
 import com.studyflow.entity.Friendship;
 import com.studyflow.entity.User;
@@ -16,10 +17,7 @@ public class FriendshipService {
     private final FriendshipRepository friendshipRepository;
     private final UserRepository userRepository;
 
-    public FriendshipService(
-            FriendshipRepository friendshipRepository,
-            UserRepository userRepository
-    ) {
+    public FriendshipService(FriendshipRepository friendshipRepository, UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
     }
@@ -27,24 +25,19 @@ public class FriendshipService {
     @Transactional(readOnly = true)
     public List<FriendUserResponse> getFriends(String email) {
         User user = getUser(email);
-
-        return friendshipRepository.findAcceptedForUser(user)
+        return friendshipRepository.findByUserAndStatus(user, Friendship.Status.ACCEPTED)
                 .stream()
-                .map(f -> f.getRequester().getId().equals(user.getId())
-                        ? f.getAddressee()
-                        : f.getRequester())
+                .map(f -> f.getRequester().getId().equals(user.getId()) ? f.getAddressee() : f.getRequester())
                 .map(FriendUserResponse::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<FriendUserResponse> getPendingRequests(String email) {
+    public List<FriendRequestResponse> getPendingRequests(String email) {
         User user = getUser(email);
-
-        return friendshipRepository.findPendingRequests(user)
+        return friendshipRepository.findRequestsForUser(user, Friendship.Status.PENDING)
                 .stream()
-                .map(Friendship::getRequester)
-                .map(FriendUserResponse::from)
+                .map(FriendRequestResponse::from)
                 .toList();
     }
 
@@ -86,7 +79,6 @@ public class FriendshipService {
         if (!friendship.getAddressee().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You cannot accept this request");
         }
-
         if (friendship.getStatus() != Friendship.Status.PENDING) {
             throw new RuntimeException("This request is no longer pending");
         }
@@ -111,7 +103,7 @@ public class FriendshipService {
 
     @Transactional(readOnly = true)
     public List<FriendUserResponse> searchUsers(String currentEmail, String query) {
-        String q = query == null ? "" : query.trim();
+        String q = query == null ? "" : query.trim().toLowerCase();
         if (q.isEmpty()) return List.of();
 
         User currentUser = getUser(currentEmail);
@@ -119,8 +111,7 @@ public class FriendshipService {
         return userRepository.findAll()
                 .stream()
                 .filter(u -> !u.getId().equals(currentUser.getId()))
-                .filter(u -> u.getName().toLowerCase().contains(q.toLowerCase())
-                        || u.getEmail().toLowerCase().contains(q.toLowerCase()))
+                .filter(u -> u.getName().toLowerCase().contains(q) || u.getEmail().toLowerCase().contains(q))
                 .limit(20)
                 .map(FriendUserResponse::from)
                 .toList();
