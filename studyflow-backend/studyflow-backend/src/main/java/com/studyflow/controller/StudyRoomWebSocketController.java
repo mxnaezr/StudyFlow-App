@@ -1,40 +1,3 @@
-<<<<<<< HEAD
-package com.studyflow.controller;
-
-import com.studyflow.dto.StudyRoomMessage;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
-
-@Controller
-public class StudyRoomWebSocketController {
-
-    private final SimpMessagingTemplate messagingTemplate;
-
-    public StudyRoomWebSocketController(
-            SimpMessagingTemplate messagingTemplate
-    ) {
-        this.messagingTemplate = messagingTemplate;
-    }
-
-    @MessageMapping("/room/message")
-    public void sendMessage(StudyRoomMessage message) {
-
-        if (message.getRoomCode() == null ||
-                message.getRoomCode().isBlank()) {
-
-            return;
-        }
-
-        String roomCode = message.getRoomCode().trim();
-
-        messagingTemplate.convertAndSend(
-                "/topic/room/" + roomCode,
-                message
-        );
-    }
-}
-=======
 package com.studyflow.controller;
 
 import com.studyflow.dto.StudyRoomMessage;
@@ -59,8 +22,9 @@ public class StudyRoomWebSocketController {
             return;
         }
 
-        String destination = "/topic/room/" + message.getRoomCode();
+        String roomCode = message.getRoomCode().trim();
+        String destination = "/topic/room/" + roomCode;
+
         messagingTemplate.convertAndSend(destination, message);
     }
 }
->>>>>>> bd5464bc5915081f4eeea0f984c528a00897782f
