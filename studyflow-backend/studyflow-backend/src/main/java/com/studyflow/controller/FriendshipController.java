@@ -1,5 +1,6 @@
 package com.studyflow.controller;
 
+import com.studyflow.dto.FriendRequestResponse;
 import com.studyflow.dto.FriendUserResponse;
 import com.studyflow.service.FriendshipService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class FriendshipController {
     }
 
     @GetMapping("/requests")
-    public ResponseEntity<List<FriendUserResponse>> getRequests(Authentication authentication) {
+    public ResponseEntity<List<FriendRequestResponse>> getRequests(Authentication authentication) {
         return ResponseEntity.ok(friendshipService.getPendingRequests(authentication.getName()));
     }
 
