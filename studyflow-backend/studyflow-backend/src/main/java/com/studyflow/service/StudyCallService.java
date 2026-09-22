@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,12 +50,11 @@ public class StudyCallService {
         String identity = "sf-user-" + user.getId();
         String roomName = "studyflow-" + normalizedRoom;
 
-        LocalDateTime joinedAt = LocalDateTime.now();
         StudyCallLog log = callLogRepository.save(
                 StudyCallLog.builder()
                         .user(user)
                         .roomCode(normalizedRoom)
-                        .joinedAt(joinedAt)
+                        .joinedAt(LocalDateTime.now())
                         .callType("GROUP")
                         .build()
         );
@@ -83,7 +81,10 @@ public class StudyCallService {
         if (log.getLeftAt() == null) {
             LocalDateTime leftAt = LocalDateTime.now();
             log.setLeftAt(leftAt);
-            long seconds = Math.max(0, java.time.Duration.between(log.getJoinedAt(), leftAt).getSeconds());
+            long seconds = Math.max(
+                    0,
+                    java.time.Duration.between(log.getJoinedAt(), leftAt).getSeconds()
+            );
             log.setDurationSeconds(seconds);
             callLogRepository.save(log);
         }
@@ -96,7 +97,10 @@ public class StudyCallService {
     }
 
     private String createToken(String identity, String roomName, String participantName) {
-        SecretKey key = Keys.hmacShaKeyFor(livekitApiSecret.getBytes(StandardCharsets.UTF_8));
+        SecretKey key = Keys.hmacShaKeyFor(
+                livekitApiSecret.getBytes(StandardCharsets.UTF_8)
+        );
+
         Date now = new Date();
         Date expiry = new Date(now.getTime() + 60 * 60 * 1000L);
 
@@ -107,16 +111,13 @@ public class StudyCallService {
         videoGrant.put("canSubscribe", true);
         videoGrant.put("canPublishData", true);
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("video", videoGrant);
-        claims.put("name", participantName == null ? identity : participantName);
-
         return Jwts.builder()
                 .issuer(livekitApiKey)
                 .subject(identity)
                 .issuedAt(now)
                 .expiration(expiry)
-                .claims(claims)
+                .claim("video", videoGrant)
+                .claim("name", participantName == null ? identity : participantName)
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
@@ -135,7 +136,9 @@ public class StudyCallService {
 
     private void validateConfiguration() {
         if (livekitUrl.isBlank() || livekitApiKey.isBlank() || livekitApiSecret.isBlank()) {
-            throw new IllegalStateException("LiveKit is not configured. Set LIVEKIT_URL, LIVEKIT_API_KEY and LIVEKIT_API_SECRET.");
+            throw new IllegalStateException(
+                    "LiveKit is not configured. Set LIVEKIT_URL, LIVEKIT_API_KEY and LIVEKIT_API_SECRET."
+            );
         }
     }
 }
