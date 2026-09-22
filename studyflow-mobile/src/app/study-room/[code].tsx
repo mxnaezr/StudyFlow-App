@@ -2,7 +2,12 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { connectToStudyRoom, disconnectFromStudyRoom, sendStudyRoomMessage, StudyRoomMessage } from "../../services/websocketService";
+import {
+  connectToStudyRoom,
+  disconnectFromStudyRoom,
+  sendStudyRoomMessage,
+  StudyRoomMessage,
+} from "../../services/websocketService";
 
 export default function StudyRoomScreen() {
   const params = useLocalSearchParams<{ code?: string; name?: string; subject?: string }>();
@@ -12,9 +17,16 @@ export default function StudyRoomScreen() {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    connectToStudyRoom((incoming) => {
-      if (incoming.roomCode === code) setMessages((current) => [...current, incoming]);
-    }, code, () => setConnected(true), () => setConnected(false));
+    connectToStudyRoom(
+      (incoming) => {
+        if (incoming.roomCode === code) {
+          setMessages((current) => [...current, incoming]);
+        }
+      },
+      code,
+      () => setConnected(true),
+      () => setConnected(false)
+    );
 
     return () => disconnectFromStudyRoom();
   }, [code]);
@@ -30,33 +42,88 @@ export default function StudyRoomScreen() {
     Alert.alert("Invite code", `Share this StudyFlow room code with your friends: ${code}`);
   };
 
+  const startCall = () => {
+    router.push({ pathname: "/study-call/[roomCode]", params: { roomCode: code } });
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Pressable onPress={() => router.back()} style={styles.backButton}><Text style={styles.backText}>‹</Text></Pressable>
+          <Pressable onPress={() => router.back()} style={styles.backButton}>
+            <Text style={styles.backText}>‹</Text>
+          </Pressable>
           <View style={styles.headerText}>
             <Text style={styles.title}>{params.name || "Study Room"}</Text>
             <Text style={styles.subtitle}>{params.subject || "Shared study session"}</Text>
           </View>
-          <View style={[styles.status, connected && styles.statusConnected]}><Text style={styles.statusText}>{connected ? "Live" : "Offline"}</Text></View>
+          <View style={[styles.status, connected && styles.statusConnected]}>
+            <Text style={styles.statusText}>{connected ? "Live" : "Offline"}</Text>
+          </View>
         </View>
 
         <View style={styles.inviteCard}>
-          <View style={styles.inviteText}><Text style={styles.inviteLabel}>ROOM CODE</Text><Text style={styles.code}>{code}</Text></View>
-          <Pressable style={styles.shareButton} onPress={copyInvite}><Text style={styles.shareButtonText}>Share</Text></Pressable>
+          <View style={styles.inviteText}>
+            <Text style={styles.inviteLabel}>ROOM CODE</Text>
+            <Text style={styles.code}>{code}</Text>
+          </View>
+          <Pressable style={styles.shareButton} onPress={copyInvite}>
+            <Text style={styles.shareButtonText}>Share</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.callRow}>
+          <View style={styles.callInfo}>
+            <Text style={styles.callTitle}>Study together by voice</Text>
+            <Text style={styles.callSubtitle}>Start a group call with everyone in this room.</Text>
+          </View>
+          <Pressable style={styles.callButton} onPress={startCall}>
+            <Text style={styles.callButtonText}>Join Call</Text>
+          </Pressable>
         </View>
 
         <View style={styles.chatCard}>
-          <View style={styles.chatHeader}><Text style={styles.chatTitle}>Room Chat</Text><Text style={styles.memberText}>Study together</Text></View>
-          <ScrollView style={styles.messages} contentContainerStyle={styles.messagesContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.chatHeader}>
+            <Text style={styles.chatTitle}>Room Chat</Text>
+            <Text style={styles.memberText}>Study together</Text>
+          </View>
+
+          <ScrollView
+            style={styles.messages}
+            contentContainerStyle={styles.messagesContent}
+            showsVerticalScrollIndicator={false}
+          >
             {messages.length === 0 ? (
-              <View style={styles.empty}><Text style={styles.emptyIcon}>💬</Text><Text style={styles.emptyTitle}>Start the conversation</Text><Text style={styles.emptyText}>Messages from everyone in this room will appear here.</Text></View>
-            ) : messages.map((item, index) => (
-              <View key={`${item.sender}-${index}`} style={styles.message}><Text style={styles.sender}>{item.sender}</Text><Text style={styles.messageText}>{item.message}</Text></View>
-            ))}
+              <View style={styles.empty}>
+                <Text style={styles.emptyIcon}>💬</Text>
+                <Text style={styles.emptyTitle}>Start the conversation</Text>
+                <Text style={styles.emptyText}>
+                  Messages from everyone in this room will appear here.
+                </Text>
+              </View>
+            ) : (
+              messages.map((item, index) => (
+                <View key={`${item.sender}-${index}`} style={styles.message}>
+                  <Text style={styles.sender}>{item.sender}</Text>
+                  <Text style={styles.messageText}>{item.message}</Text>
+                </View>
+              ))
+            )}
           </ScrollView>
-          <View style={styles.composer}><TextInput value={message} onChangeText={setMessage} placeholder="Write a message..." placeholderTextColor="#9AA0AE" style={styles.input} onSubmitEditing={sendMessage} /><Pressable style={styles.sendButton} onPress={sendMessage}><Text style={styles.sendText}>↑</Text></Pressable></View>
+
+          <View style={styles.composer}>
+            <TextInput
+              value={message}
+              onChangeText={setMessage}
+              placeholder="Write a message..."
+              placeholderTextColor="#9AA0AE"
+              style={styles.input}
+              onSubmitEditing={sendMessage}
+            />
+            <Pressable style={styles.sendButton} onPress={sendMessage}>
+              <Text style={styles.sendText}>↑</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -75,12 +142,18 @@ const styles = StyleSheet.create({
   status: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 20, backgroundColor: "#EEEFF4" },
   statusConnected: { backgroundColor: "#E7F8EE" },
   statusText: { fontSize: 11, fontWeight: "800", color: "#77798A" },
-  inviteCard: { flexDirection: "row", alignItems: "center", backgroundColor: "#171827", borderRadius: 18, padding: 16, marginBottom: 15 },
+  inviteCard: { flexDirection: "row", alignItems: "center", backgroundColor: "#171827", borderRadius: 18, padding: 16, marginBottom: 12 },
   inviteText: { flex: 1 },
   inviteLabel: { fontSize: 9, color: "#AEB1BD", fontWeight: "800", letterSpacing: 1 },
   code: { color: "#FFFFFF", fontSize: 22, fontWeight: "800", letterSpacing: 1, marginTop: 3 },
   shareButton: { backgroundColor: "#FFFFFF", paddingHorizontal: 16, paddingVertical: 9, borderRadius: 10 },
   shareButtonText: { color: "#171827", fontSize: 12, fontWeight: "800" },
+  callRow: { flexDirection: "row", alignItems: "center", backgroundColor: "#ECEBFF", borderRadius: 16, padding: 14, marginBottom: 12 },
+  callInfo: { flex: 1 },
+  callTitle: { fontSize: 14, fontWeight: "800", color: "#312E81" },
+  callSubtitle: { fontSize: 11, color: "#66648A", marginTop: 3 },
+  callButton: { backgroundColor: "#4F46E5", borderRadius: 11, paddingHorizontal: 15, paddingVertical: 11 },
+  callButtonText: { color: "#FFFFFF", fontSize: 12, fontWeight: "800" },
   chatCard: { flex: 1, minHeight: 400, backgroundColor: "#FFFFFF", borderWidth: 1, borderColor: "#E5E6EE", borderRadius: 18, overflow: "hidden" },
   chatHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15, borderBottomWidth: 1, borderBottomColor: "#ECECF2" },
   chatTitle: { fontSize: 15, fontWeight: "800", color: "#171827" },
