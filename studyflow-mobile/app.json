@@ -8,7 +8,11 @@
     "scheme": "studyflowmobile",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "StudyFlow uses your microphone for group study calls.",
+        "NSCameraUsageDescription": "StudyFlow uses your camera for optional group study video calls."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +22,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.mxnaezr.studyflowmobile"
+      "package": "com.mxnaezr.studyflowmobile",
+      "permissions": ["android.permission.RECORD_AUDIO", "android.permission.CAMERA"]
     },
     "web": {
       "output": "static",
@@ -26,6 +31,8 @@
     },
     "plugins": [
       "expo-router",
+      "@livekit/react-native-expo-plugin",
+      "@config-plugins/react-native-webrtc",
       [
         "expo-splash-screen",
         {
