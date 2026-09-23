@@ -3,6 +3,7 @@ C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\AuthController.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\FriendshipController.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\StatisticsController.java
+C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\StudyCallController.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\StudyGoalController.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\StudyRoomWebSocketController.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\controller\StudySessionController.java
@@ -19,6 +20,7 @@ C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\dto\VerifyEmailRequest.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\EmailVerification.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\Friendship.java
+C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\StudyCallLog.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\StudyGoal.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\StudySession.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\entity\Subject.java
@@ -27,6 +29,7 @@ C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\exception\ResourceNotFoundException.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\EmailVerificationRepository.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\FriendshipRepository.java
+C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\StudyCallLogRepository.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\StudyGoalRepository.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\StudySessionRepository.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\repository\SubjectRepository.java
@@ -38,6 +41,7 @@ C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\AIService.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\EmailService.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\FriendshipService.java
+C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\StudyCallService.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\StudyGoalService.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\StudySessionService.java
 C:\CODHNDSE26.1F\StudyFlow-App\studyflow-backend\studyflow-backend\src\main\java\com\studyflow\service\SubjectService.java

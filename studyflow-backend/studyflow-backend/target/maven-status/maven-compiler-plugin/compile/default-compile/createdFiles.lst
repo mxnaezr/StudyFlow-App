@@ -2,6 +2,7 @@ com\studyflow\repository\FriendshipRepository.class
 com\studyflow\service\EmailService.class
 com\studyflow\exception\GlobalExceptionHandler.class
 com\studyflow\controller\UserController.class
+com\studyflow\service\StudyCallService.class
 com\studyflow\dto\FriendUserResponse.class
 com\studyflow\repository\UserRepository.class
 com\studyflow\entity\Subject.class
@@ -9,6 +10,7 @@ com\studyflow\service\FriendshipService.class
 com\studyflow\config\WebSocketConfig.class
 com\studyflow\repository\EmailVerificationRepository.class
 com\studyflow\StudyflowBackendApplication.class
+com\studyflow\repository\StudyCallLogRepository.class
 com\studyflow\entity\EmailVerification$EmailVerificationBuilder.class
 com\studyflow\entity\Friendship$Status.class
 com\studyflow\entity\Friendship.class
@@ -30,13 +32,17 @@ com\studyflow\controller\AuthController.class
 com\studyflow\service\StudyGoalService.class
 com\studyflow\entity\StudySession$StudySessionBuilder.class
 com\studyflow\dto\RegisterRequest.class
+com\studyflow\controller\StudyCallController$StartCallRequest.class
 com\studyflow\controller\SubjectController.class
 com\studyflow\entity\StudyGoal$StudyGoalBuilder.class
 com\studyflow\dto\VerifyEmailRequest.class
+com\studyflow\entity\StudyCallLog$StudyCallLogBuilder.class
 com\studyflow\entity\StudyGoal.class
 com\studyflow\dto\FriendRequestResponse.class
+com\studyflow\entity\StudyCallLog.class
 com\studyflow\repository\StudyGoalRepository.class
 com\studyflow\controller\StudySessionController.class
+com\studyflow\controller\StudyCallController.class
 com\studyflow\entity\Subject$SubjectBuilder.class
 com\studyflow\dto\ProfileUpdateRequest.class
 com\studyflow\security\JwtService.class
